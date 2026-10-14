@@ -9,3 +9,15 @@ test('Unsafe links and invalid work amounts are rejected',()=>{for(const s of ['
 test('Demo begins empty, persists programs/ticks/notes, locks tracked dates and rejects stale edits',async()=>{const mem=storage(),s=new DemoStore(mem);assert.deepEqual(await s.list(),[]);const p=await s.save(plan());const eid=p.definition.days[0].exercises[0].id;await s.check(p.id,p.start_date,eid,true);await s.note(p.id,p.start_date,'4 kg');const reload=new DemoStore(mem);assert.equal((await reload.load(p.id)).notes[p.start_date],'4 kg');assert.equal(progress(p,(await reload.load(p.id)).logs).done,1);await assert.rejects(()=>s.save({...p,weeks:5}));const updated=await s.save({...p,name:'Yeni ad'});assert.equal(updated.version,2);await assert.rejects(()=>s.save(p));});
 test('Failed local save does not claim completion',async()=>{const mem=storage(),s=new DemoStore(mem),p=await s.save(plan());mem.setItem=()=>{throw new Error('quota')};await assert.rejects(()=>s.check(p.id,p.start_date,p.definition.days[0].exercises[0].id,true));assert.deepEqual((await s.load(p.id)).logs,{});});
 test('Cloud logs paginate beyond the default API row limit',async()=>{const all=Array.from({length:1255},(_,i)=>({session_date:'2026-10-19',exercise_id:String(i),completed:true})),calls=[];const mock={from(table){const q={select(){return q},eq(k,v){assert.ok(['program_id','user_id'].includes(k));return q},order(){return q},async range(a,b){calls.push([table,a,b]);return{data:table==='gym_entries'?all.slice(a,b+1):[],error:null}}};return q}};const s=new CloudStore(mock,{id:'owner'});assert.equal(Object.keys((await s.load('program')).logs).length,1255);assert.equal(calls.length,4);});
+
+test('Week-specific plans preserve schedules, guidance and exact free-text doses',async()=>{
+ const {weekFixture}=await import('./helpers/week-specific.mjs');const {cleanDefinition,exerciseDose,weekPlan}=await import('../src/domain.js');
+ const p=weekFixture();validateProgram(p);const days=schedule(p);
+ assert.equal(progress(p,{}).total,16);assert.equal(days[7].exercises[1].seconds,900);assert.equal(days[21].exercises[1].seconds,1500);
+ assert.notEqual(days[0].exercises[0].id,days[7].exercises[0].id);assert.equal(exerciseDose(days[7].exercises[0]),'İlgili bölümü uygula');
+ assert.equal(weekPlan(p,2).instructions[0],'Bu haftanın uygulama notu 3');
+ p.definition.weekPlans[0].days[0].exercises[0].description='Düzenlenmiş açıklama';
+ const d=cleanDefinition(p);assert.equal(d.days[0].exercises[0].description,'Düzenlenmiş açıklama');assert.equal(d.weekPlans[1].days[0].exercises[0].description,'Hareket açıklaması 2');
+ const bad=weekFixture();bad.definition.weekPlans.pop();assert.throws(()=>validateProgram(bad));
+ const bad2=weekFixture();bad2.definition.weekPlans[3].days[0].exercises[0].dose='';assert.throws(()=>validateProgram(bad2));
+});
