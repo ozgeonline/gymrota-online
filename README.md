@@ -10,6 +10,9 @@ Kendi antrenman programını oluştur, çalışmalarını planla ve gelişimini 
 - Antrenmanlara video bağlantısı ekleme
 - Tarihe göre tamamlanan çalışmaları işaretleme
 - Günlük notlar tutma
+- Aynı tarihte Gym ve Beslenme sekmeleri arasında geçiş yapma
+- Hesabına eklenen beslenme planında öğün miktarlarını ve besin değerlerini görme
+- Tamamlanan öğünleri her tarih için ayrı işaretleme
 - Birden fazla program oluşturma ve düzenleme
 - Telefona ve masaüstüne uyumlu tasarım
 
