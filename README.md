@@ -15,6 +15,8 @@ Kendi antrenman programını oluştur, çalışmalarını planla ve gelişimini 
 - Tamamlanan öğünleri her tarih için ayrı işaretleme
 - Ürünlerin gram/ml miktarlarını değiştirip ürün, öğün ve gün toplamlarını anında hesaplama
 - Değişen miktarları yalnızca seçili gün için kaydetme
+- Uygun ürünlerde adet, balda tatlı kaşığı ve haşlanmış mısırda koçan ölçüsüyle giriş yapma
+- Sayfanın sağ altındaki okla sayfa başına dönme
 - Birden fazla program oluşturma ve düzenleme
 - Telefona ve masaüstüne uyumlu tasarım
 
