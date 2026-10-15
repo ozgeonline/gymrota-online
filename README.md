@@ -13,6 +13,8 @@ Kendi antrenman programını oluştur, çalışmalarını planla ve gelişimini 
 - Aynı tarihte Gym ve Beslenme sekmeleri arasında geçiş yapma
 - Hesabına eklenen beslenme planında öğün miktarlarını ve besin değerlerini görme
 - Tamamlanan öğünleri her tarih için ayrı işaretleme
+- Ürünlerin gram/ml miktarlarını değiştirip ürün, öğün ve gün toplamlarını anında hesaplama
+- Değişen miktarları yalnızca seçili gün için kaydetme
 - Birden fazla program oluşturma ve düzenleme
 - Telefona ve masaüstüne uyumlu tasarım
 
